@@ -11,7 +11,7 @@ public class MedicalCenterApp {
         MedicalCenterController controller = new MedicalCenterController();
 
         while (true) {
-            System.out.print("Ingrese el nombre del paciente (o 'salir' para terminar): ");
+            System.out.print("Ingrese el nombre del paciente (o escribe 'salir' para terminar): ");
             String name = scanner.nextLine();
             
             if (name.equalsIgnoreCase("salir")) {
@@ -25,7 +25,7 @@ public class MedicalCenterApp {
             controller.addPatient(name, severity);
         }
 
-        System.out.println("\nTurnos de pacientes atendidos:");
+        System.out.println("\nTurnos de pacientes atendidos en orden de gravedad:");
         while (controller.hasPatients()) { // Verificar si hay pacientes en la cola
             Patient patient = controller.getNextPatient();
             System.out.println("Paciente: " + patient.getName() + " - Gravedad: " + patient.getSeverity());

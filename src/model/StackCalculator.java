@@ -1,17 +1,21 @@
 package model;
 
 import java.util.Stack;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.function.DoubleUnaryOperator;
 
 public class StackCalculator {
     private Stack<Double> operandStack;
     private Stack<String> operatorStack;
-    private final DoubleUnaryOperator SIN_FUNCTION = Math::sin;
-    private final DoubleUnaryOperator COS_FUNCTION = Math::cos;
+    private Map<String, DoubleUnaryOperator> functions;
 
     public StackCalculator() {
         operandStack = new Stack<>();
         operatorStack = new Stack<>();
+        functions = new HashMap<>();
+        functions.put("sin", Math::sin);
+        functions.put("cos", Math::cos);
     }
 
     public double evaluateExpression(String expression) {
@@ -21,7 +25,7 @@ public class StackCalculator {
             if (isNumber(token)) {
                 operandStack.push(Double.parseDouble(token));
             } else if (isOperator(token)) {
-                while (!operatorStack.isEmpty() && hasHigherPrecedence(operatorStack.peek(), token)) {
+                while (!operatorStack.isEmpty() && isOperator(operatorStack.peek()) && hasHigherPrecedence(operatorStack.peek(), token)) {
                     evaluateOperator(operatorStack.pop());
                 }
                 operatorStack.push(token);
@@ -56,14 +60,11 @@ public class StackCalculator {
     }
 
     private boolean isFunction(String token) {
-        return token.equals("sin") || token.equals("cos");
+        return functions.containsKey(token);
     }
 
     private boolean hasHigherPrecedence(String op1, String op2) {
-        if ((op1.equals("*") || op1.equals("/")) && (op2.equals("+") || op2.equals("-"))) {
-            return true;
-        }
-        return false;
+        return (op1.equals("*") || op1.equals("/")) && (op2.equals("+") || op2.equals("-"));
     }
 
     private void evaluateOperator(String operator) {
@@ -82,24 +83,25 @@ public class StackCalculator {
                 result = operand1 * operand2;
                 break;
             case "/":
-                result = operand1 / operand2;
+                if (operand2 != 0) {
+                    result = operand1 / operand2;
+                } else {
+                    throw new ArithmeticException("División por cero no está permitida");
+                }
                 break;
         }
 
         operandStack.push(result);
     }
 
+
     private void evaluateFunction(String function) {
         double operand = operandStack.pop();
-        DoubleUnaryOperator operator;
-        if (function.equals("sin")) {
-            operator = SIN_FUNCTION;
-        } else {
-            operator = COS_FUNCTION;
-        }
+        DoubleUnaryOperator operator = functions.get(function);
 
         operandStack.push(operator.applyAsDouble(operand));
     }
 }
+
 
 

@@ -41,21 +41,25 @@ public class StackCalculator {
         double operand2 = operandStack.pop();
         double operand1 = operandStack.pop();
         
+        double result = 0.0;
         switch (operator) {
             case "+":
-                operandStack.push(operand1 + operand2);
+                result = operand1 + operand2;
                 break;
             case "-":
-                operandStack.push(operand1 - operand2);
+                result = operand1 - operand2;
                 break;
             case "*":
-                operandStack.push(operand1 * operand2);
+                result = operand1 * operand2;
                 break;
             case "/":
-                operandStack.push(operand1 / operand2);
+                result = operand1 / operand2;
                 break;
         }
+        
+        operandStack.push(result);
     }
+
 
     private void evaluateFunction(String function) {
         double operand = operandStack.pop();

@@ -32,7 +32,7 @@ public class TaskController {
             System.out.print("Seleccione una opción: ");
             
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consumir la nueva línea después de la entrada numérica
+            scanner.nextLine(); 
 
             switch (choice) {
                 case 1:
@@ -48,7 +48,7 @@ public class TaskController {
                     displayTasks();
                     System.out.print("Seleccione el índice de la tarea para asignar: ");
                     int taskIndex = scanner.nextInt();
-                    scanner.nextLine(); // Consumir la nueva línea después de la entrada numérica
+                    scanner.nextLine(); 
                     System.out.print("Ingrese el nombre del usuario asignado: ");
                     String userName = scanner.nextLine();
                     assignTask(taskIndex, userName);

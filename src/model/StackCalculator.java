@@ -4,9 +4,11 @@ import java.util.Stack;
 
 public class StackCalculator {
     private Stack<Double> operandStack;
+    private Stack<String> operatorStack;
 
     public StackCalculator() {
         operandStack = new Stack<>();
+        operatorStack = new Stack<>();
     }
 
     public double evaluateExpression(String expression) {
@@ -16,10 +18,15 @@ public class StackCalculator {
             if (isNumber(token)) {
                 operandStack.push(Double.parseDouble(token));
             } else if (isOperator(token)) {
-                evaluateOperator(token);
-            } else if (isFunction(token)) {
-                evaluateFunction(token);
+                while (!operatorStack.isEmpty() && hasHigherPrecedence(operatorStack.peek(), token)) {
+                    evaluateOperator(operatorStack.pop());
+                }
+                operatorStack.push(token);
             }
+        }
+        
+        while (!operatorStack.isEmpty()) {
+            evaluateOperator(operatorStack.pop());
         }
         
         return operandStack.pop();
@@ -33,8 +40,8 @@ public class StackCalculator {
         return token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/");
     }
 
-    private boolean isFunction(String token) {
-        return token.equals("sin") || token.equals("cos");
+    private boolean hasHigherPrecedence(String op1, String op2) {
+        return (op1.equals("*") || op1.equals("/")) && (op2.equals("+") || op2.equals("-"));
     }
 
     private void evaluateOperator(String operator) {
@@ -59,19 +66,6 @@ public class StackCalculator {
         
         operandStack.push(result);
     }
-
-
-    private void evaluateFunction(String function) {
-        double operand = operandStack.pop();
-        
-        switch (function) {
-            case "sin":
-                operandStack.push(Math.sin(Math.toRadians(operand)));
-                break;
-            case "cos":
-                operandStack.push(Math.cos(Math.toRadians(operand)));
-                break;
-        }
-    }
 }
+
 

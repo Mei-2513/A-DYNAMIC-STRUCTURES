@@ -19,8 +19,9 @@ public class CalculatorGUI {
         frame = new JFrame("Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new FlowLayout());
-
-        JLabel exampleLabel = new JLabel("Para el uso correcto es necesario usar los espacios correctos: 5 + 3 * sin ( 30 )");
+        
+        
+        JLabel exampleLabel = new JLabel("Para el uso correcto es necesario usar los espacios correctos: 5 + 3 * sin ( 30 ) otro ejemplo: 5 + 3 + 2 x 5 / 10");
         expressionField = new JTextField(30); 
         JButton calculateButton = new JButton("Calcular");
         resultLabel = new JLabel("Resultado: ");
@@ -38,7 +39,7 @@ public class CalculatorGUI {
         frame.add(calculateButton);
         frame.add(resultLabel);
 
-        frame.setSize(500, 200); 
+        frame.setSize(800, 200); 
         frame.setVisible(true);
     }
 
